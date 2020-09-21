@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "marital-status-app"
+    }
+  },
+  "defaultProject": "marital-status-app",
+  "cli": {
+    "analytics": false
+  }
 }
