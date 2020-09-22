@@ -1,7 +1,9 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/44936493/93939580-5faa1c80-fd01-11ea-9f75-20c5b3fba3a8.png" width="60" height="60"/>
-  <h1 align="center">Cônjuges</h1>
+  <h1 align="center">Cônjuges</h1>  
 </p>
+
+[](https://img.shields.io/github/package-json/v/lopes-leandro/marital-status-app?style=flat-square)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
 
