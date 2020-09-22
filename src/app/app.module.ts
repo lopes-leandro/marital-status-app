@@ -3,16 +3,32 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from "./material/material.module";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { HomeComponent } from './views/home/home.component';
+import { SpouseListComponent } from './views/home/spouse-list/spouse-list.component';
+import { SpousesComponent } from './views/spouses/spouses.component';
+import { MatConfigDialogComponent } from './shared/components/mat-config-dialog/mat-config-dialog.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    SpouseListComponent,
+    SpousesComponent,
+    MatConfigDialogComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MatConfigDialogComponent]
 })
 export class AppModule { }
