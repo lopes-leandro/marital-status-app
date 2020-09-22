@@ -2,6 +2,10 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
 
+## Pré-requisito
+
+Antes de executar este projeto, é necessário baixar e executar a API [spouses](https://github.com/lopes-leandro/spouses-api)
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
