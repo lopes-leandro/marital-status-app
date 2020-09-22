@@ -3,7 +3,8 @@
   <h1 align="center">Cônjuges</h1>  
 </p>
 
-[](https://img.shields.io/github/package-json/v/lopes-leandro/marital-status-app?style=flat-square)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/lopes-leandro/marital-status-app?style=flat-square)
+![GitHub](https://img.shields.io/github/license/lopes-leandro/marital-status-app?style=flat-square)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
 
