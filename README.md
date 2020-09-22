@@ -5,33 +5,23 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/lopes-leandro/marital-status-app?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/lopes-leandro/marital-status-app?style=flat-square)
+![](https://img.shields.io/badge/html5%20-%23E34F26.svg?&style=flat-square&logo=html5&logoColor=white)
+![](https://img.shields.io/badge/css3%20-%231572B6.svg?&style=flat-square&logo=css3&logoColor=white")
+![](https://img.shields.io/badge/javascript%20-%23323330.svg?&style=flat-square&logo=javascript&logoColor=%23F7DF1E)
+![](https://img.shields.io/badge/typescript%20-%23007ACC.svg?&style=flat-square&logo=typescript&logoColor=white)
+![](https://img.shields.io/badge/angular_9.1.12%20-%23DD0031.svg?&style=flat-square&logo=angular&logoColor=white)
+![](https://img.shields.io/badge/node.js%20-%2343853D.svg?&style=flat-square&logo=node.js&logoColor=white)
+![](https://img.shields.io/badge/material_design-757575.svg?&style=flat-square&logo=material-design&logoColor=white)
+![](https://img.shields.io/badge/material_design_icons-2196F3.svg?&style=flat-square&logo=material-design-icons&logoColor=white)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.12.
+Projeto desenvolvido para aprimorar meus conhecimentos nas stacks acima.
 
 ## Pré-requisito
 
 Antes de executar este projeto, é necessário baixar e executar a API [spouses](https://github.com/lopes-leandro/spouses-api)
 
-## Development server
+## Ambiente de Desenvolvimento
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Execute `npm install` para instalar todas as dependências necessárias para o projeto executar.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Execute `ng serve` para executar o ambiente de desenvolvimento. Navegue para `http://localhost:4200/`. Neste ambiente o código será recarregado automáticamente à cada alteração dos arquivos do projeto.
