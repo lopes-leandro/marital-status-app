@@ -3,15 +3,7 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/shared/services/dialog.service';
-
-export interface Spouse {
-  $key: number;
-  name: string;
-  maritalStatus: string;
-  dateOfBirth: number;
-  spouseName: string;
-  spouseDateOfBirth: number;
-}
+import { ISpouse } from "src/app/shared/interfaces/interfaces";
 
 @Component({
   selector: 'app-spouse-list',
@@ -19,7 +11,7 @@ export interface Spouse {
   styleUrls: ['./spouse-list.component.scss'],
 })
 export class SpouseListComponent implements OnInit {
-  @Input() data: Spouse[] = [];
+  @Input() data: ISpouse[] = [];
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   displayedColumns: string[] = [
@@ -32,8 +24,7 @@ export class SpouseListComponent implements OnInit {
   
   listData: MatTableDataSource<any>;
   searchKey: string = 'ex: Maria ou Solteiro';
-  dateTs: number = Date.parse('12/08/1982');
-
+  
   constructor(private dialogService: DialogService) {}
 
   sortData(sort: Sort) {

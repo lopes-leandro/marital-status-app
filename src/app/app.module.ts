@@ -10,6 +10,7 @@ import { HomeComponent } from './views/home/home.component';
 import { SpouseListComponent } from './views/home/spouse-list/spouse-list.component';
 import { SpousesComponent } from './views/spouses/spouses.component';
 import { MatConfigDialogComponent } from './shared/components/mat-config-dialog/mat-config-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MatConfigDialogComponent } from './shared/components/mat-config-dialog/
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

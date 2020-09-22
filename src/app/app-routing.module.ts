@@ -9,11 +9,11 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'spose/add',
+    path: 'spouse/add',
     component: SpousesComponent,
   },
   {
-    path: 'spose/:id/edit',
+    path: 'spouse/:id/edit',
     component: SpousesComponent,
   },
 ];
