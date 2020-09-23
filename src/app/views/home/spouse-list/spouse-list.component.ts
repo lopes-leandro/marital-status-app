@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,9 +11,10 @@ import { ISpouse } from "src/app/shared/interfaces/interfaces";
   styleUrls: ['./spouse-list.component.scss'],
 })
 export class SpouseListComponent implements OnInit {
-  @Input() data: ISpouse[] = [];
+  @Input() dataInput: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+  @Output() deleteItem: EventEmitter<number> = new EventEmitter<number>(); 
+  
   displayedColumns: string[] = [
     'name',
     'dateOfBirth',
@@ -22,18 +23,18 @@ export class SpouseListComponent implements OnInit {
     'actions',
   ];
   
-  listData: MatTableDataSource<any>;
+
   searchKey: string = 'ex: Maria ou Solteiro';
   
   constructor(private dialogService: DialogService) {}
 
   sortData(sort: Sort) {
-    const data = this.data.slice();
+    const data = this.dataInput.data.slice();
     if (!sort.active || sort.direction == '') {
-      this.listData.data = data;
+      this.dataInput.data = data;
       return;
     }
-    this.listData.data = data.sort((a, b) => {
+    this.dataInput.data = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
         case 'name':
@@ -53,8 +54,8 @@ export class SpouseListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listData = new MatTableDataSource(this.data.slice());
-    this.listData.paginator = this.paginator;
+    // this.listData = new MatTableDataSource(this.listData.data.slice());
+    this.dataInput.paginator = this.paginator;
   }
 
   onSearchClear() {
@@ -63,17 +64,14 @@ export class SpouseListComponent implements OnInit {
   }
 
   applyFilter() {
-    this.listData.filter = this.searchKey.trim().toLowerCase();
+    this.dataInput.filter = this.searchKey.trim().toLowerCase();
   }
 
-  onDelete($key) {
-    // if (confirm('Você tem certeza que quer deletar este registro?')) {
-    //   $key;
-    // }
+  onDelete(id) {    
     this.dialogService.openConfirmDialog("Você tem certeza que quer deletar este registro?")
     .afterClosed().subscribe(res => {
       if (res) {
-        this.data
+        this.deleteItem.emit(id);
       }      
     });
   }

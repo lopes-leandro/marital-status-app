@@ -1,33 +1,49 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validator, Validators } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ISpouse } from '../interfaces/interfaces';
+import { CustomValidators } from 'src/app/shared/utils/validators';
+import { environment } from 'src/environments/environment';
+
+export interface ISpouseService {
+  readonly spouses$: BehaviorSubject<ISpouse[]>;
+}
+
 @Injectable({
   providedIn: 'root',
 })
-export class SpouseService {
+export class SpouseService implements ISpouseService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': '	application/json',
+      Accept: 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }),
+  };
+  readonly spouses$ = new BehaviorSubject<ISpouse[]>(null);
 
-  private spousesBehaviorSubject = new BehaviorSubject<ISpouse[]>([]);
-
-  constructor(private httpClient: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
   form: FormGroup = new FormGroup({
-    $key: new FormControl(null),
+    id: new FormControl(null),
     name: new FormControl('', [
       Validators.required,
       Validators.minLength(5),
-      Validators.pattern('^[a-zA-z]*$'),
+      Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'),
     ]),
     maritalStatus: new FormControl('', Validators.required),
-    dateOfBirth: new FormControl('', Validators.required),
+    dateOfBirth: new FormControl('', [
+      Validators.required,
+      CustomValidators.GreaterThanEighteenYears,
+    ]),
     spouseName: new FormControl('', Validators.required),
     spouseDateOfBirth: new FormControl('', Validators.required),
   });
 
   inicializedFormGroup() {
     this.form.setValue({
-      $key: null,
+      id: null,
       name: '',
       maritalStatus: '',
       dateOfBirth: '',
@@ -36,7 +52,50 @@ export class SpouseService {
     });
   }
 
-  getSpouses(){
-    return this.spousesBehaviorSubject;
+  setSpouseValidator() {}
+
+  getAllSpouses(): Observable<ISpouse[]> {
+    return this.http.get<ISpouse[]>(
+      `${environment.baseUrl}localhost:4500/spouse`
+    );
+  }
+
+  addSpouse(spouse: ISpouse): Observable<ISpouse> {
+    return this.http.post<ISpouse>(
+      `${environment.baseUrl}localhost:4500/spouse`,
+      JSON.stringify(spouse),
+      {
+        headers: this.httpOptions.headers,
+      }
+    );
+  }
+
+  updateSpouse(spouse: ISpouse): Observable<ISpouse> {
+    return this.http.put<ISpouse>(
+      `${environment.baseUrl}localhost:4500/spouse`,
+      JSON.stringify(spouse),
+      {
+        headers: this.httpOptions.headers,
+      }
+    );
+  }
+
+  deleteSpouse(id: string): Observable<ISpouse> {
+    return this.http.delete<ISpouse>(
+      `${environment.baseUrl}localhost:4500/spouse/${id}`,
+      {
+        headers: this.httpOptions.headers,
+      }
+    );
+  }
+
+  mockAddSpouse(spouse: ISpouse): Observable<ISpouse> {
+    return this.http.post<ISpouse>(
+      `${environment.baseUrl}localhost:4500/spouse`,
+      JSON.stringify(spouse),
+      {
+        headers: this.httpOptions.headers,
+      }
+    );
   }
 }

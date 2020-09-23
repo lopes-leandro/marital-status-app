@@ -1,8 +1,8 @@
 export interface ISpouse {
-  $key: number;
+  id: number;
   name: string;
   maritalStatus: string;
-  dateOfBirth: number;
+  dateOfBirth: string;
   spouseName: string;
-  spouseDateOfBirth: number;
+  spouseDateOfBirth: string;
 }

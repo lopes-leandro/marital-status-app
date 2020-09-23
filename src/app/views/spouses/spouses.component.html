@@ -1,8 +1,8 @@
-<form [formGroup]="service.form" class="normal-form">
+<form [formGroup]="service.form" class="normal-form" (submit)="onSubmit()">
   <mat-grid-list cols="1" rowHeight="400px">
     <mat-grid-tile>
       <div class="controles-container">
-        <input type="hidden" formControlName="$key" />
+        <input type="hidden" formControlName="id" />
         <mat-form-field>
           <input
             formControlName="name"
@@ -31,15 +31,23 @@
             [for]="dateOfBirth"
           ></mat-datepicker-toggle>
           <mat-datepicker #dateOfBirth></mat-datepicker>
-          <mat-error>Data de Nascimento é obrigatório.</mat-error>
+          <mat-error
+            *ngIf="service.form.controls['dateOfBirth'].errors?.required"
+            >Data de Nascimento é obrigatório.</mat-error
+          >
+          <mat-error
+            *ngIf="service.form.controls['dateOfBirth'].errors?.underAge"
+            >Deve ter idade maior ou igual a 18 anos.</mat-error
+          >
         </mat-form-field>
         <mat-form-field>
           <mat-select
             formControlName="maritalStatus"
             placeholder="Estado Civil *"
+            (selectionChange)="onChangeMaritalStatus($event)"
           >
             <ng-container *ngFor="let option of maritalStatus">
-              <mat-option value="{{ option.id }}">{{
+              <mat-option value="{{ option.value }}">{{
                 option.value
               }}</mat-option>
             </ng-container>
@@ -69,8 +77,20 @@
           <mat-datepicker #spouseDateOfBirth></mat-datepicker>
         </mat-form-field>
         <div class="button-row">
-          <button mat-raised-button color="accent" type="submit" [disabled]="service.form.invalid">Salvar</button>
-          <button mat-raised-button color="basic" (click)="back()">Voltar</button>
+          <button
+            mat-raised-button
+            color="accent"
+            type="submit"
+            [disabled]="service.form.invalid"
+          >
+            Salvar
+          </button>
+          <button mat-raised-button color="basic" (click)="back()">
+            Voltar
+          </button>
+          <button mat-raised-button color="basic" (click)="mockAdd()">
+            Dados Fake
+          </button>
         </div>
       </div>
     </mat-grid-tile>

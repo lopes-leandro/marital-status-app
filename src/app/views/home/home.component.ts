@@ -1,42 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { ISpouse } from 'src/app/shared/interfaces/interfaces';
+import { SpouseService } from 'src/app/shared/services/spouse.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
   title: string = "Lista de Cônjuges";
-  spouses = [{
-    name: "Antonella Agatha Nascimento",
-    maritalStatus: "Casado(a)",
-    dateOfBirth: "01/08/1944",
-    spouseName: "Gael Heitor Assis",
-    spouseDateOfBirth: "22/08/1948"
-  },{
-    name: "Sara Helena Campos",
-    maritalStatus: "Casado(a)",
-    dateOfBirth: "24/06/1946",
-    spouseName: "Victor Tomás Pires",
-    spouseDateOfBirth: "20/05/1941"
-  },{
-    name: "Stefany Renata Vieira",
-    maritalStatus: "Solteiro(a)",
-    dateOfBirth: "25/02/1975",
-    spouseName: "",
-    spouseDateOfBirth: ""
-  },{
-    name: "Maya Priscila Pietra Pereira",
-    maritalStatus: "Casado(a)",
-    dateOfBirth: "20/07/1976",
-    spouseName: "Arthur Luan Lucca Ferreira",
-    spouseDateOfBirth: "23/08/1988"
-  }];
+  spouses$: Subject<ISpouse[]> = new Subject<ISpouse[]>();
+  spouses: ISpouse[] = [];
+  dataSource: MatTableDataSource<ISpouse>;
   
-  constructor() { }
+  constructor(public spouseService: SpouseService, private router: Router) {}
+  
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    this.spouses$.subscribe(data => this.spouses = data);  
+    this.getSpouses();    
+  }
+  getSpouses() {
+    this.spouseService.getAllSpouses().subscribe(data => 
+      {
+        this.spouses$.next(data);
+        this.dataSource = new MatTableDataSource<ISpouse>(data);
+      }
+      );
   }
 
+  deleteSpouse(ev) {
+    this.spouseService.deleteSpouse(ev).subscribe();
+    this.getSpouses();
+  }
+
+  ngOnDestroy(): void {
+  }  
 }
