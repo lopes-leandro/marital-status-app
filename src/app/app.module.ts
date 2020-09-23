@@ -11,6 +11,7 @@ import { SpouseListComponent } from './views/home/spouse-list/spouse-list.compon
 import { SpousesComponent } from './views/spouses/spouses.component';
 import { MatConfigDialogComponent } from './shared/components/mat-config-dialog/mat-config-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}],
   bootstrap: [AppComponent],
   entryComponents: [MatConfigDialogComponent]
 })
