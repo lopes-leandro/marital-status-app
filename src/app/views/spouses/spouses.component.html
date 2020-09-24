@@ -1,98 +1,115 @@
-<form [formGroup]="service.form" class="normal-form" (submit)="onSubmit()">
-  <mat-grid-list cols="1" rowHeight="400px">
-    <mat-grid-tile>
-      <div class="controles-container">
-        <input type="hidden" formControlName="id" />
-        <mat-form-field>
-          <input
-            formControlName="name"
-            matInput
-            placeholder="Nome Completo *"
-          />
-          <mat-error *ngIf="service.form.controls['name'].errors?.required"
-            >Nome Completo é obrigatório.</mat-error
-          >
-          <mat-error *ngIf="service.form.controls['name'].errors?.minlength"
-            >Minimo de 5 caracteres é necessário.</mat-error
-          >
-          <mat-error *ngIf="service.form.controls['name'].errors?.pattern"
-            >Informe somente letras.</mat-error
-          >
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            formControlName="dateOfBirth"
-            matInput
-            [matDatepicker]="dateOfBirth"
-            placeholder="Data de Nascimento *"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="dateOfBirth"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #dateOfBirth></mat-datepicker>
-          <mat-error
-            *ngIf="service.form.controls['dateOfBirth'].errors?.required"
-            >Data de Nascimento é obrigatório.</mat-error
-          >
-          <mat-error
-            *ngIf="service.form.controls['dateOfBirth'].errors?.underAge"
-            >Deve ter idade maior ou igual a 18 anos.</mat-error
-          >
-        </mat-form-field>
-        <mat-form-field>
-          <mat-select
-            formControlName="maritalStatus"
-            placeholder="Estado Civil *"
-            (selectionChange)="onChangeMaritalStatus($event)"
-          >
-            <ng-container *ngFor="let option of maritalStatus">
-              <mat-option value="{{ option.value }}">{{
-                option.value
-              }}</mat-option>
-            </ng-container>
-          </mat-select>
-          <mat-error>Estado Civil é obrigatório.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            formControlName="spouseName"
-            matInput
-            placeholder="Nome Completo do Cônjuge *"
-          />
-          <mat-error>Nome Completo do Cônjuge é obrigatório.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            formControlName="spouseDateOfBirth"
-            matInput
-            [matDatepicker]="spouseDateOfBirth"
-            placeholder="Data de Nascimento do Cônjuge *"
-          />
-          <mat-error>Data de Nascimento do Cônjuge é obrigatório.</mat-error>
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="spouseDateOfBirth"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #spouseDateOfBirth></mat-datepicker>
-        </mat-form-field>
-        <div class="button-row">
-          <button
-            mat-raised-button
-            color="accent"
-            type="submit"
-            [disabled]="service.form.invalid"
-          >
-            Salvar
-          </button>
-          <button mat-raised-button color="basic" (click)="back()">
-            Voltar
-          </button>
-          <button mat-raised-button color="basic" (click)="mockAdd()">
+<div fxLayout="column" fxLayoutAlign="start" class="content">
+  <mat-toolbar>
+    <h1>{{ isMarried ? "Editar" : "Novo" }} Cônjuge</h1>
+  </mat-toolbar>
+
+  <form [formGroup]="service.form" class="normal-form" (submit)="onSubmit()">
+    <mat-grid-list cols="1" rowHeight="400px">
+      <mat-grid-tile>
+        <div class="controles-container">
+          <input type="hidden" formControlName="id" />
+          <mat-form-field>
+            <input
+              formControlName="name"
+              matInput
+              placeholder="Nome Completo *"
+            />
+            <mat-error *ngIf="service.form.controls['name'].errors?.required"
+              >Nome Completo é obrigatório.</mat-error
+            >
+            <mat-error *ngIf="service.form.controls['name'].errors?.minlength"
+              >Minimo de 5 caracteres é necessário.</mat-error
+            >
+            <mat-error *ngIf="service.form.controls['name'].errors?.pattern"
+              >Informe somente letras.</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              formControlName="dateOfBirth"
+              matInput
+              [matDatepicker]="dateOfBirth"
+              placeholder="Data de Nascimento *"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="dateOfBirth"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #dateOfBirth></mat-datepicker>
+            <mat-error
+              *ngIf="service.form.controls['dateOfBirth'].errors?.required"
+              >Data de Nascimento é obrigatório.</mat-error
+            >
+            <mat-error
+              *ngIf="service.form.controls['dateOfBirth'].errors?.underAge"
+              >Deve ter idade igual ou superior à 18 anos.</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select
+              formControlName="maritalStatus"
+              placeholder="Estado Civil *"
+              (selectionChange)="onChangeMaritalStatus($event)"
+            >
+              <ng-container *ngFor="let option of maritalStatus">
+                <mat-option value="{{ option.value }}">{{
+                  option.value
+                }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error>Estado Civil é obrigatório.</mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="isMarried">
+            <input
+              formControlName="spouseName"
+              matInput
+              placeholder="Nome Completo do Cônjuge *"
+            />
+            <mat-error
+              *ngIf="service.form.controls['spouseName']?.errors?.required"
+              >Nome Completo é obrigatório.</mat-error
+            >
+            <mat-error
+              *ngIf="service.form.controls['spouseName']?.errors?.minlength"
+              >Minimo de 5 caracteres é necessário.</mat-error
+            >
+            <mat-error
+              *ngIf="service.form.controls['spouseName']?.errors?.pattern"
+              >Informe somente letras.</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field *ngIf="isMarried">
+            <input
+              formControlName="spouseDateOfBirth"
+              matInput
+              [matDatepicker]="spouseDateOfBirth"
+              placeholder="Data de Nascimento do Cônjuge *"
+            />
+            <mat-error>Data de Nascimento do Cônjuge é obrigatório.</mat-error>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="spouseDateOfBirth"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #spouseDateOfBirth></mat-datepicker>
+          </mat-form-field>
+          <div class="button-row">
+            <button
+              mat-raised-button
+              color="accent"
+              type="submit"
+              [disabled]="service.form.invalid"
+            >
+              Salvar
+            </button>
+            <button mat-raised-button color="basic" (click)="back()">
+              Voltar
+            </button>
+            <!-- <button mat-raised-button color="basic" (click)="mockAdd()">
             Dados Fake
-          </button>
+          </button> -->
+          </div>
         </div>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-</form>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>

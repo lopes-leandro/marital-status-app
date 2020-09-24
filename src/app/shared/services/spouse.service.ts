@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validator, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ISpouse } from '../interfaces/interfaces';
 import { CustomValidators } from 'src/app/shared/utils/validators';
 import { environment } from 'src/environments/environment';
+import { validateBasis } from '@angular/flex-layout';
 
 export interface ISpouseService {
   readonly spouses$: BehaviorSubject<ISpouse[]>;
@@ -37,8 +38,8 @@ export class SpouseService implements ISpouseService {
       Validators.required,
       CustomValidators.GreaterThanEighteenYears,
     ]),
-    spouseName: new FormControl('', Validators.required),
-    spouseDateOfBirth: new FormControl('', Validators.required),
+    spouseName: new FormControl(''),
+    spouseDateOfBirth: new FormControl(''),
   });
 
   inicializedFormGroup() {
@@ -52,17 +53,41 @@ export class SpouseService implements ISpouseService {
     });
   }
 
-  setSpouseValidator() {}
+  setSpouseValidator(maritalStatus) {
+    switch (maritalStatus) {
+      case 'Casado(a)':
+        this.form
+          .get('spouseName')
+          .setValidators([
+            Validators.required,
+            Validators.minLength(5),
+            Validators.pattern('^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$'),
+          ]);
+        this.form.get('spouseName').updateValueAndValidity();        
+        this.form
+          .get('spouseDateOfBirth')
+          .setValidators([
+            Validators.required,
+            CustomValidators.GreaterThanEighteenYears,
+          ]);
+        this.form.get('spouseDateOfBirth').updateValueAndValidity();
+        break;
+      case 'Solteiro(a)':
+        this.form.get('spouseName').setValidators([]);
+        this.form.get('spouseName').updateValueAndValidity();
+        this.form.get('spouseDateOfBirth').setValidators([]);
+        this.form.get('spouseDateOfBirth').updateValueAndValidity();
+        break;
+    }
+  }
 
   getAllSpouses(): Observable<ISpouse[]> {
-    return this.http.get<ISpouse[]>(
-      `${environment.baseUrl}localhost:4500/spouse`
-    );
+    return this.http.get<ISpouse[]>(`${environment.baseUrl}/spouse`);
   }
 
   addSpouse(spouse: ISpouse): Observable<ISpouse> {
     return this.http.post<ISpouse>(
-      `${environment.baseUrl}localhost:4500/spouse`,
+      `${environment.baseUrl}/spouse`,
       JSON.stringify(spouse),
       {
         headers: this.httpOptions.headers,
@@ -71,9 +96,17 @@ export class SpouseService implements ISpouseService {
   }
 
   updateSpouse(spouse: ISpouse): Observable<ISpouse> {
+    const id = spouse.id;
+    const transform = {
+      name: spouse.name,
+      dateOfBirth: spouse.dateOfBirth,
+      maritalStatus: spouse.maritalStatus,
+      spouseName: spouse.spouseName,
+      spouseDateOfBirth: spouse.spouseDateOfBirth,
+    };
     return this.http.put<ISpouse>(
-      `${environment.baseUrl}localhost:4500/spouse`,
-      JSON.stringify(spouse),
+      `${environment.baseUrl}/spouse/${id}`,
+      JSON.stringify(transform),
       {
         headers: this.httpOptions.headers,
       }
@@ -81,17 +114,14 @@ export class SpouseService implements ISpouseService {
   }
 
   deleteSpouse(id: string): Observable<ISpouse> {
-    return this.http.delete<ISpouse>(
-      `${environment.baseUrl}localhost:4500/spouse/${id}`,
-      {
-        headers: this.httpOptions.headers,
-      }
-    );
+    return this.http.delete<ISpouse>(`${environment.baseUrl}/spouse/${id}`, {
+      headers: this.httpOptions.headers,
+    });
   }
 
   mockAddSpouse(spouse: ISpouse): Observable<ISpouse> {
     return this.http.post<ISpouse>(
-      `${environment.baseUrl}localhost:4500/spouse`,
+      `${environment.baseUrl}/spouse`,
       JSON.stringify(spouse),
       {
         headers: this.httpOptions.headers,

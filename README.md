@@ -25,3 +25,8 @@ Antes de executar este projeto, é necessário baixar e executar a API [spouses]
 Execute `npm install` para instalar todas as dependências necessárias para o projeto executar.
 
 Execute `ng serve` para executar o ambiente de desenvolvimento. Navegue para `http://localhost:4200/`. Neste ambiente o código será recarregado automáticamente à cada alteração dos arquivos do projeto.
+
+
+https://stackoverflow.com/questions/49293093/how-to-add-remove-formcontrol-from-a-nested-formgroup
+
+https://stackoverflow.com/questions/53507355/remove-validators-from-form-control-angular-6/53507454

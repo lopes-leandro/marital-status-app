@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
-html, body { height: 100%; }
+// html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
@@ -29,8 +29,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .confirm-dialog-container #no-button{
   height: 50px;
   width: 50%;
-  background-color: #fc7169;
-  color: white;
+  // background-color: #fc7169;
+  // color: white;
   border-radius: 0px;
 }
 
@@ -49,4 +49,36 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .button-row button { 
   margin: 5px;
+}
+
+/// #Notification
+snack-bar-container.success {
+  background-color: #5cb85c;
+  color: #fff;
+}
+
+snack-bar-container.error {
+  background-color: #ef233c;
+  color: #fff;
+}
+
+snack-bar-container.notification simple-snack-bar{
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+
+/// #Content
+.toolbar { 
+  background-color: #fff;
+  padding-bottom: 40px;
+  padding-right: 0;
+  padding-left: 0;
+}
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+.content {
+  padding: 2%;
+  width: 100%;
 }

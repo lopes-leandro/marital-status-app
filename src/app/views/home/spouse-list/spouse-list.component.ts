@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -11,9 +11,10 @@ import { ISpouse } from "src/app/shared/interfaces/interfaces";
   styleUrls: ['./spouse-list.component.scss'],
 })
 export class SpouseListComponent implements OnInit {
-  @Input() dataInput: MatTableDataSource<any>;
+  @Input() inputData: Array<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Output() deleteItem: EventEmitter<number> = new EventEmitter<number>(); 
+  @Output() editItem: EventEmitter<number> = new EventEmitter<number>();
   
   displayedColumns: string[] = [
     'name',
@@ -22,11 +23,11 @@ export class SpouseListComponent implements OnInit {
     'spouseName',
     'actions',
   ];
-  
+  dataInput: MatTableDataSource<any>;
 
-  searchKey: string = 'ex: Maria ou Solteiro';
+  searchKey: string;
   
-  constructor(private dialogService: DialogService) {}
+  constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef) {}
 
   sortData(sort: Sort) {
     const data = this.dataInput.data.slice();
@@ -54,8 +55,9 @@ export class SpouseListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.listData = new MatTableDataSource(this.listData.data.slice());
+    this.dataInput = new MatTableDataSource(this.inputData.slice());
     this.dataInput.paginator = this.paginator;
+    this.cdr.detectChanges();
   }
 
   onSearchClear() {
@@ -65,6 +67,10 @@ export class SpouseListComponent implements OnInit {
 
   applyFilter() {
     this.dataInput.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  onEdit(id) {
+    this.editItem.emit(id);
   }
 
   onDelete(id) {    

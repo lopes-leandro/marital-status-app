@@ -2,9 +2,9 @@
   <mat-toolbar class="toolbar">
     <h1>{{ title }}</h1>
     <span class="toolbar-spacer"></span>
-    <button mat-flat-button color="accent" [routerLink]="'/spouse/add'">Novo Cônjuge</button>
+    <button mat-raised-button color="accent" (click)="newSpouse()">Novo Cônjuge</button>
   </mat-toolbar>
   
-  <app-spouse-list [dataInput]="dataSource" (deleteItem)="deleteSpouse($event)"></app-spouse-list>
+  <app-spouse-list [inputData]="dataSource.data" (deleteItem)="deleteSpouse($event)" (editItem)="editSpouse($event)"></app-spouse-list>
 </div>
-<a href="https://coolors.co/2b2d42-8d99ae-edf2f4-ef233c-d90429">coolors</a>
+<!-- <a href="https://coolors.co/2b2d42-8d99ae-edf2f4-ef233c-d90429">coolors</a> -->
