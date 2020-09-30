@@ -11,7 +11,7 @@ import { ISpouse } from "src/app/shared/interfaces/interfaces";
   styleUrls: ['./spouse-list.component.scss'],
 })
 export class SpouseListComponent implements OnInit {
-  @Input() inputData: Array<any>;
+  @Input() inputData: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Output() deleteItem: EventEmitter<number> = new EventEmitter<number>(); 
   @Output() editItem: EventEmitter<number> = new EventEmitter<number>();
@@ -27,7 +27,8 @@ export class SpouseListComponent implements OnInit {
 
   searchKey: string;
   
-  constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef) {}
+  constructor(private dialogService: DialogService, private cdr: ChangeDetectorRef) {
+  }
 
   sortData(sort: Sort) {
     const data = this.dataInput.data.slice();
@@ -55,6 +56,10 @@ export class SpouseListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // retornar o nome das propriedades de um array
+    // const test = this.inputData.find((v, i) => i == 0);
+    // console.log(Object.getOwnPropertyNames(test));
+
     this.dataInput = new MatTableDataSource(this.inputData.slice());
     this.dataInput.paginator = this.paginator;
     this.cdr.detectChanges();

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { ISpouse } from 'src/app/shared/interfaces/interfaces';
 import { SpouseService } from 'src/app/shared/services/spouse.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,27 +13,29 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 })
 export class HomeComponent implements OnInit, OnDestroy {
   title: string = 'Lista de Cônjuges';
-  spouses$: Subject<ISpouse[]> = new Subject<ISpouse[]>();
-  spouses: ISpouse[] = [];
+
   dataSource: MatTableDataSource<ISpouse>;
+  subscription: Subscription;
+  subscriptionObs: Subscription;
 
   constructor(
     public spouseService: SpouseService,
     private router: Router,
     private notificationService: NotificationService
   ) {
-    this.getSpouses();
+   console.log('construct');
+   this.getSpouses();
   }
 
-  ngOnInit(): void {    
-    this.spouses$.subscribe((data) => {
-      this.spouses = data;
+  ngOnInit(): void {
+    this.subscriptionObs = this.spouseService.getSpousesObs().subscribe((data) => {            
       this.dataSource = new MatTableDataSource<ISpouse>(data);
-    });
+    }); 
   }
+
   getSpouses() {
-    this.spouseService.getAllSpouses().subscribe((data) => {
-      this.spouses$.next(data);      
+    this.subscription = this.spouseService.getAllSpouses().subscribe((data) => {
+      this.spouseService.setSpousesObs(data);
     });
   }
 
@@ -59,5 +61,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getSpouses();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    if (this.subscriptionObs) {
+      this.subscriptionObs.unsubscribe();
+      console.log('subscriptionObs');
+    }
+    if (this.subscription){
+      this.subscription.unsubscribe();
+      console.log('subscription');
+    }    
+  }
 }
