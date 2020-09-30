@@ -5,6 +5,6 @@
     <button mat-raised-button color="accent" (click)="newSpouse()">Novo Cônjuge</button>
   </mat-toolbar>
   
-  <app-spouse-list [inputData]="dataSource.data" (deleteItem)="deleteSpouse($event)" (editItem)="editSpouse($event)"></app-spouse-list>
+  <app-spouse-list *ngIf="dataSource.data"  [inputData]="dataSource.data" (deleteItem)="deleteSpouse($event)" (editItem)="editSpouse($event)"></app-spouse-list>
 </div>
 <!-- <a href="https://coolors.co/2b2d42-8d99ae-edf2f4-ef233c-d90429">coolors</a> -->

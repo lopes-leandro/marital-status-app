@@ -1,20 +1,16 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validator, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { ISpouse } from '../interfaces/interfaces';
 import { CustomValidators } from 'src/app/shared/utils/validators';
 import { environment } from 'src/environments/environment';
 import { validateBasis } from '@angular/flex-layout';
 
-export interface ISpouseService {
-  readonly spouses$: BehaviorSubject<ISpouse[]>;
-}
-
 @Injectable({
   providedIn: 'root',
 })
-export class SpouseService implements ISpouseService {
+export class SpouseService{
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': '	application/json',
@@ -22,7 +18,8 @@ export class SpouseService implements ISpouseService {
       'Access-Control-Allow-Origin': '*',
     }),
   };
-  readonly spouses$ = new BehaviorSubject<ISpouse[]>(null);
+
+   private spousesObs$: Subject<ISpouse[]> = new Subject<ISpouse[]>();
 
   constructor(private http: HttpClient) {}
 
@@ -83,6 +80,14 @@ export class SpouseService implements ISpouseService {
 
   getAllSpouses(): Observable<ISpouse[]> {
     return this.http.get<ISpouse[]>(`${environment.baseUrl}/spouse`);
+  }
+
+  getSpousesObs(): Observable<ISpouse[]> {
+    return this.spousesObs$.asObservable();
+  }
+
+  setSpousesObs(spouses: ISpouse[]) {
+    this.spousesObs$.next(spouses);
   }
 
   addSpouse(spouse: ISpouse): Observable<ISpouse> {
