@@ -14,7 +14,7 @@
 ![](https://img.shields.io/badge/material_design-757575.svg?&style=flat-square&logo=material-design&logoColor=white)
 ![](https://img.shields.io/badge/material_design_icons-2196F3.svg?&style=flat-square&logo=material-design-icons&logoColor=white)
 
-Projeto desenvolvido para aprimorar meus conhecimentos nas stacks acima.
+Projeto desenvolvido para aprimorar meus conhecimentos em Angular Material.
 
 ## Pré-requisito
 
